@@ -32,8 +32,12 @@ public class EvaluationService {
 	public String acronym(String phrase) {
             String acronym = "";
             
-            for (int i = 0; i < phrase.length(); i++) {
+            phrase = phrase.replaceAll("\\p{Punct}"," ");
+            phrase = phrase.replaceAll("  ", " ");
+            
+            while (phrase.length() > 0) {
                 acronym += phrase.charAt(0);
+                
                 int indexOfSpace = phrase.indexOf(" ");
                 if (indexOfSpace != -1) {
                     phrase = phrase.substring(indexOfSpace+1, phrase.length());
@@ -41,8 +45,8 @@ public class EvaluationService {
                     break;
                 }
             }
-                
-            return acronym;
+            
+            return acronym.toUpperCase();
 	}
 
 	/**
