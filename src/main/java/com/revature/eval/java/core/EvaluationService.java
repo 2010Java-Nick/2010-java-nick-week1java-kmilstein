@@ -30,8 +30,19 @@ public class EvaluationService {
 	 * @return
 	 */
 	public String acronym(String phrase) {
-		// TODO Write an implementation for this method declaration
-		return null;
+            String acronym = "";
+            
+            for (int i = 0; i < phrase.length(); i++) {
+                acronym += phrase.charAt(0);
+                int indexOfSpace = phrase.indexOf(" ");
+                if (indexOfSpace != -1) {
+                    phrase = phrase.substring(indexOfSpace+1, phrase.length());
+                } else {
+                    break;
+                }
+            }
+                
+            return acronym;
 	}
 
 	/**
