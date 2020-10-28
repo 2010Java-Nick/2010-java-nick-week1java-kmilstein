@@ -100,20 +100,17 @@ public class EvaluationService {
         }
 
         public boolean isEquilateral() {
-            // TODO Write an implementation for this method declaration
-            return false;
+            return this.sideOne == this.sideTwo && this.sideTwo == this.sideThree;
         }
 
         public boolean isIsosceles() {
-            // TODO Write an implementation for this method declaration
-            return false;
+            return this.sideOne == this.sideTwo || this.sideTwo == this.sideThree
+                    || this.sideOne == this.sideThree;
         }
 
         public boolean isScalene() {
-            // TODO Write an implementation for this method declaration
-            return false;
+            return !isIsosceles();
         }
-
     }
 
     /**
