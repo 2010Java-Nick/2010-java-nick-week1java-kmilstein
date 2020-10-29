@@ -129,8 +129,37 @@ public class EvaluationService {
      * @return
      */
     public int getScrabbleScore(String string) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+        int score = 0;
+        
+        String testString = string.toUpperCase();
+        
+        for (int i = 0; i < testString.length(); i++) {
+            if (testString.charAt(i) == 'A' || testString.charAt(i) == 'E' ||
+                    testString.charAt(i) == 'I' || testString.charAt(i) == 'O' ||
+                    testString.charAt(i) == 'O' || testString.charAt(i) == 'U' ||
+                    testString.charAt(i) == 'L' || testString.charAt(i) == 'N' ||
+                    testString.charAt(i) == 'R' || testString.charAt(i) == 'S' ||
+                    testString.charAt(i) == 'T') {
+                score++;
+            } else if (testString.charAt(i) == 'D' || testString.charAt(i) == 'G') {
+                score += 2;
+            } else if (testString.charAt(i) == 'B' || testString.charAt(i) == 'C' ||
+                    testString.charAt(i) == 'M' || testString.charAt(i) == 'P') {
+                score += 3;
+            } else if (testString.charAt(i) == 'F' || testString.charAt(i) == 'H' ||
+                    testString.charAt(i) == 'V' || testString.charAt(i) == 'W' ||
+                    testString.charAt(i) == 'Y') {
+                score += 4;
+            } else if (testString.charAt(i) == 'K') {
+                score += 5;
+            } else if (testString.charAt(i) == 'J' || testString.charAt(i) == 'X') {
+                score += 8;
+            } else {
+                score += 10;
+            }
+        }
+        
+        return score;
     }
 
     /**
