@@ -169,9 +169,13 @@ public class EvaluationService {
         string = string.replaceAll("[^\\d]", "");
         
         if (string.charAt(0) == ('1')) {
-            string = string.substring(1, string.length());
+            string.substring(1, string.length());
         }
-        return string;
+        if (string.length() == 10) {
+            return string;
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
