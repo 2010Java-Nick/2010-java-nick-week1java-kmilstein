@@ -136,10 +136,9 @@ public class EvaluationService {
         for (int i = 0; i < testString.length(); i++) {
             if (testString.charAt(i) == 'A' || testString.charAt(i) == 'E' ||
                     testString.charAt(i) == 'I' || testString.charAt(i) == 'O' ||
-                    testString.charAt(i) == 'O' || testString.charAt(i) == 'U' ||
-                    testString.charAt(i) == 'L' || testString.charAt(i) == 'N' ||
-                    testString.charAt(i) == 'R' || testString.charAt(i) == 'S' ||
-                    testString.charAt(i) == 'T') {
+                    testString.charAt(i) == 'U' ||testString.charAt(i) == 'L' || 
+                    testString.charAt(i) == 'N' || testString.charAt(i) == 'R' || 
+                    testString.charAt(i) == 'S' || testString.charAt(i) == 'T') {
                 score++;
             } else if (testString.charAt(i) == 'D' || testString.charAt(i) == 'G') {
                 score += 2;
