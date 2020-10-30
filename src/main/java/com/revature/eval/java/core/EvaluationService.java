@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -130,24 +131,24 @@ public class EvaluationService {
      */
     public int getScrabbleScore(String string) {
         int score = 0;
-        
+
         String testString = string.toUpperCase();
-        
+
         for (int i = 0; i < testString.length(); i++) {
-            if (testString.charAt(i) == 'A' || testString.charAt(i) == 'E' ||
-                    testString.charAt(i) == 'I' || testString.charAt(i) == 'O' ||
-                    testString.charAt(i) == 'U' ||testString.charAt(i) == 'L' || 
-                    testString.charAt(i) == 'N' || testString.charAt(i) == 'R' || 
-                    testString.charAt(i) == 'S' || testString.charAt(i) == 'T') {
+            if (testString.charAt(i) == 'A' || testString.charAt(i) == 'E'
+                    || testString.charAt(i) == 'I' || testString.charAt(i) == 'O'
+                    || testString.charAt(i) == 'U' || testString.charAt(i) == 'L'
+                    || testString.charAt(i) == 'N' || testString.charAt(i) == 'R'
+                    || testString.charAt(i) == 'S' || testString.charAt(i) == 'T') {
                 score++;
             } else if (testString.charAt(i) == 'D' || testString.charAt(i) == 'G') {
                 score += 2;
-            } else if (testString.charAt(i) == 'B' || testString.charAt(i) == 'C' ||
-                    testString.charAt(i) == 'M' || testString.charAt(i) == 'P') {
+            } else if (testString.charAt(i) == 'B' || testString.charAt(i) == 'C'
+                    || testString.charAt(i) == 'M' || testString.charAt(i) == 'P') {
                 score += 3;
-            } else if (testString.charAt(i) == 'F' || testString.charAt(i) == 'H' ||
-                    testString.charAt(i) == 'V' || testString.charAt(i) == 'W' ||
-                    testString.charAt(i) == 'Y') {
+            } else if (testString.charAt(i) == 'F' || testString.charAt(i) == 'H'
+                    || testString.charAt(i) == 'V' || testString.charAt(i) == 'W'
+                    || testString.charAt(i) == 'Y') {
                 score += 4;
             } else if (testString.charAt(i) == 'K') {
                 score += 5;
@@ -157,7 +158,7 @@ public class EvaluationService {
                 score += 10;
             }
         }
-        
+
         return score;
     }
 
@@ -195,7 +196,7 @@ public class EvaluationService {
      */
     public String cleanPhoneNumber(String string) {
         string = string.replaceAll("[^\\d]", "");
-        
+
         if (string.charAt(0) == ('1')) {
             string.substring(1, string.length());
         }
@@ -216,8 +217,18 @@ public class EvaluationService {
      * @return
      */
     public Map<String, Integer> wordCount(String string) {
-        // TODO Write an implementation for this method declaration
-        return null;
+        Map<String, Integer> wordCountMap = new HashMap<String, Integer>();
+        String[] stringArr = string.split("[\\s,]+");
+
+        for (int i = 0; i < stringArr.length; i++) {
+            if (wordCountMap.containsKey(stringArr[i])) {
+                wordCountMap.replace(stringArr[i], wordCountMap.get(stringArr[i]) + 1);
+            } else {
+                wordCountMap.putIfAbsent(stringArr[i], 1);
+            }
+        }
+
+        return wordCountMap;
     }
 
     /**
@@ -256,29 +267,46 @@ public class EvaluationService {
      * A binary search is a dichotomic divide and conquer search algorithm.
      *
      */
-    static class BinarySearch<T> {
+    static class BinarySearch<T extends Comparable<? super T>> {
 
-        private List<T> sortedList;
+    private List<T> sortedList;
 
-        public int indexOf(T t) {
-            // TODO Write an implementation for this method declaration
-            return 0;
-        }
-
-        public BinarySearch(List<T> sortedList) {
-            super();
-            this.sortedList = sortedList;
-        }
-
-        public List<T> getSortedList() {
-            return sortedList;
-        }
-
-        public void setSortedList(List<T> sortedList) {
-            this.sortedList = sortedList;
-        }
-
+    public BinarySearch(List<T> sortedList) {
+        super();
+        this.sortedList = sortedList;
     }
+
+    public int indexOf(T t) {
+        int first = 0;
+        int last = sortedList.size() - 1;
+        int position = -1;
+        boolean found = false;
+
+        while (!found && first <= last) {
+            int middle = (first + last) / 2;
+
+            if (sortedList.get(middle).equals(t)) {
+                found = true;
+                position = middle;
+            } else if (sortedList.get(middle).compareTo(t) > 0) {
+                last = middle - 1;
+            } else {
+                first = middle + 1;
+            }
+        }
+
+        return position;
+    }
+
+    public List<T> getSortedList() {
+        return sortedList;
+    }
+
+    public void setSortedList(List<T> sortedList) {
+        this.sortedList = sortedList;
+    }
+
+}
 
     /**
      * 8. Implement a program that translates from English to Pig Latin.
@@ -565,8 +593,37 @@ public class EvaluationService {
      * @return
      */
     public boolean isLuhnValid(String string) {
-        // TODO Write an implementation for this method declaration
-        return false;
+        string = string.replaceAll(" ", "");
+
+        if (!string.matches("^[0-9]+$")) {
+            return false;
+        }
+
+        String[] stringArr = string.split("");
+        int[] intArr = new int[stringArr.length];
+        int sum = 0;
+
+        for (int i = 0; i < stringArr.length; i++) {
+            intArr[i] = Integer.parseInt(stringArr[i]);
+        }
+
+        for (int i = 0; i < intArr.length; i++) {
+            if (i % 2 != 0) {
+                if (intArr[intArr.length - (i + 1)] * 2 <= 9) {
+                    sum += intArr[intArr.length - (i + 1)] * 2;
+                } else {
+                    sum += (intArr[intArr.length - (i + 1)] * 2) - 9;
+                }
+            } else {
+                sum += intArr[intArr.length - (i + 1)] * 1;
+            }
+        }
+
+        if (sum % 10 == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
