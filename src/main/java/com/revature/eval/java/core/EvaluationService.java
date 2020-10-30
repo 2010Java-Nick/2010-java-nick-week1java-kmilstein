@@ -1,6 +1,7 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -328,8 +329,41 @@ public class EvaluationService {
      * @return
      */
     public String toPigLatin(String string) {
-        // TODO Write an implementation for this method declaration
-        return null;
+        List<Character> vowelList = Arrays.asList('a', 'e', 'i', 'o', 'u');
+        String[] stringArr = string.split(" ");
+        String result = "";
+        
+        for (int i = 0; i < stringArr.length; i++) {
+            char c = stringArr[i].charAt(0);
+            String firstTwoLetters = stringArr[i].substring(0, 2);
+            String firstThreeLetters = stringArr[i].substring(0, 3);
+            if (vowelList.contains(c)) {
+                stringArr[i] += "ay";
+            } else if (firstTwoLetters.equals("sh")
+                    || firstTwoLetters.equals("qu")
+                    || firstTwoLetters.equals("ch")
+                    || firstTwoLetters.equals("th")) { 
+                
+                stringArr[i] = stringArr[i].substring(2, stringArr[i].length()) 
+                        + firstTwoLetters + "ay";
+            } else if (firstThreeLetters.equals("sch")) { 
+                
+                stringArr[i] = stringArr[i].substring(3, stringArr[i].length()) 
+                        + firstThreeLetters + "ay";
+            } else {
+                stringArr[i] = stringArr[i].substring(1, stringArr[i].length()) + c + "ay";
+            }
+        }
+        
+        for (int i = 0; i < stringArr.length; i++) {
+            if (i == 0) {
+                result += stringArr[i];
+            } else {
+                result += (" " + stringArr[i]);
+            }
+        }
+        
+        return result;
     }
 
     /**
@@ -348,8 +382,18 @@ public class EvaluationService {
      * @return
      */
     public boolean isArmstrongNumber(int input) {
-        // TODO Write an implementation for this method declaration
-        return false;
+        int sum = 0;
+        int originalNum = input;
+        int[] digits = new int[Integer.toString(input).length()]; 
+        for (int i = 0; i < digits.length; i++) {
+            digits[i] = input % 10;
+            input /= 10;
+        }
+        
+        for (int i = 0; i < digits.length; i++) {
+            sum += Math.pow(digits[i], digits.length);
+        }
+        return sum == originalNum;
     }
 
     /**
