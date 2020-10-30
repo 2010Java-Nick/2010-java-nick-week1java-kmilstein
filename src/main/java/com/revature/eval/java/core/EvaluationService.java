@@ -583,8 +583,26 @@ public class EvaluationService {
      * @return
      */
     public boolean isValidIsbn(String string) {
-        // TODO Write an implementation for this method declaration
-        return false;
+        int isnbSum = 0;
+        int count = 10;
+        string = string.replaceAll("-", "");
+        
+        if (!string.matches("[0-9X]{10}$")) {
+            return false;
+        }
+        
+        String[] isbnArr = string.split("");
+        
+        if (isbnArr[isbnArr.length-1].equals("X")) {
+            isbnArr[isbnArr.length-1] = "10";
+        }
+        
+        for (int i = 0; i < isbnArr.length; i++) {
+            isnbSum += ((Integer.parseInt(isbnArr[i]))*count);
+            count--;
+        }
+        
+        return isnbSum % 11 == 0;
     }
 
     /**
@@ -614,7 +632,7 @@ public class EvaluationService {
      * @return
      */
     public Temporal getGigasecondDate(Temporal given) {
-        // TODO Write an implementation for this method declaration
+        
         return null;
     }
 
