@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -659,8 +661,18 @@ public class EvaluationService {
      * @return
      */
     public int getSumOfMultiples(int i, int[] set) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+        int sum = 0;
+        
+        for (int j = 1; j < i; j++) {
+            for (int k = 0; k < set.length; k++) {
+                if (j % set[k] == 0) {
+                    sum += j;
+                    break;
+                }
+            }
+        }
+        
+        return sum;
     }
 
     /**
