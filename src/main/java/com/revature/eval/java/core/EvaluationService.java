@@ -4,13 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
-import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -472,8 +469,24 @@ public class EvaluationService {
         }
 
         public String rotate(String string) {
-            // TODO Write an implementation for this method declaration
-            return null;
+            String cipherText = "";
+            for (int i = 0; i < string.length(); i++) {
+                char originalChar = string.charAt(i);
+                if (Character.isLetter(originalChar)) {
+                    char rotatedChar;
+                    if ((originalChar + key) > 'z' && (originalChar + key) > 'Z') {
+                        rotatedChar = originalChar += (key - 26);
+                        cipherText += rotatedChar;
+                    } else {
+                        rotatedChar = originalChar += key;
+                        cipherText += rotatedChar;
+                    }
+                } else {
+                    cipherText += originalChar;
+                }
+            }
+
+            return cipherText;
         }
 
     }
@@ -662,7 +675,7 @@ public class EvaluationService {
      */
     public int getSumOfMultiples(int i, int[] set) {
         int sum = 0;
-        
+
         for (int j = 1; j < i; j++) {
             for (int k = 0; k < set.length; k++) {
                 if (j % set[k] == 0) {
@@ -671,7 +684,7 @@ public class EvaluationService {
                 }
             }
         }
-        
+
         return sum;
     }
 
