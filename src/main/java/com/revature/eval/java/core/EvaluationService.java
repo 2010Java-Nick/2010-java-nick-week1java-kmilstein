@@ -1,5 +1,8 @@
 package com.revature.eval.java.core;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -466,8 +469,24 @@ public class EvaluationService {
         }
 
         public String rotate(String string) {
-            // TODO Write an implementation for this method declaration
-            return null;
+            String cipherText = "";
+            for (int i = 0; i < string.length(); i++) {
+                char originalChar = string.charAt(i);
+                if (Character.isLetter(originalChar)) {
+                    char rotatedChar;
+                    if ((originalChar + key) > 'z' && (originalChar + key) > 'Z') {
+                        rotatedChar = originalChar += (key - 26);
+                        cipherText += rotatedChar;
+                    } else {
+                        rotatedChar = originalChar += key;
+                        cipherText += rotatedChar;
+                    }
+                } else {
+                    cipherText += originalChar;
+                }
+            }
+
+            return cipherText;
         }
 
     }
@@ -488,7 +507,7 @@ public class EvaluationService {
         if (nth < 1) {
             throw new IllegalArgumentException();
         }
-        
+
         int nthPrime = 1;
         int counter = 0;
         int divisor;
@@ -586,22 +605,22 @@ public class EvaluationService {
         int isnbSum = 0;
         int count = 10;
         string = string.replaceAll("-", "");
-        
+
         if (!string.matches("[0-9X]{10}$")) {
             return false;
         }
-        
+
         String[] isbnArr = string.split("");
-        
-        if (isbnArr[isbnArr.length-1].equals("X")) {
-            isbnArr[isbnArr.length-1] = "10";
+
+        if (isbnArr[isbnArr.length - 1].equals("X")) {
+            isbnArr[isbnArr.length - 1] = "10";
         }
-        
+
         for (int i = 0; i < isbnArr.length; i++) {
-            isnbSum += ((Integer.parseInt(isbnArr[i]))*count);
+            isnbSum += ((Integer.parseInt(isbnArr[i])) * count);
             count--;
         }
-        
+
         return isnbSum % 11 == 0;
     }
 
@@ -632,8 +651,13 @@ public class EvaluationService {
      * @return
      */
     public Temporal getGigasecondDate(Temporal given) {
-        
-        return null;
+        if (given.isSupported(ChronoUnit.SECONDS)) {
+            return given.plus(1_000_000_000, ChronoUnit.SECONDS);
+        } else {
+            LocalDate date = LocalDate.from(given);
+            LocalDateTime dateTime = date.atStartOfDay();
+            return dateTime.plus(1_000_000_000, ChronoUnit.SECONDS);
+        }
     }
 
     /**
@@ -650,8 +674,18 @@ public class EvaluationService {
      * @return
      */
     public int getSumOfMultiples(int i, int[] set) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+        int sum = 0;
+
+        for (int j = 1; j < i; j++) {
+            for (int k = 0; k < set.length; k++) {
+                if (j % set[k] == 0) {
+                    sum += j;
+                    break;
+                }
+            }
+        }
+
+        return sum;
     }
 
     /**
