@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class EvaluationService {
 
@@ -638,8 +639,19 @@ public class EvaluationService {
      * @return
      */
     public boolean isPangram(String string) {
-        // TODO Write an implementation for this method declaration
-        return false;
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
+        char[] alphabetArr = alphabet.toCharArray();
+        Map<Character, Boolean> flags = new HashMap<Character, Boolean>();
+        for (int i = 0; i < alphabetArr.length; i++) {
+            flags.put(alphabetArr[i], Boolean.FALSE);
+        }
+        
+        for (int i = 0; i < string.length(); i++) {
+            flags.replace(string.charAt(i), Boolean.FALSE, Boolean.TRUE);
+        }
+        
+        
+        return !flags.containsValue(false);
     }
 
     /**
