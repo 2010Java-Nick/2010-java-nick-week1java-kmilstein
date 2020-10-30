@@ -1,7 +1,9 @@
 package com.revature.eval.java.core;
 
 import java.time.temporal.Temporal;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -270,44 +272,44 @@ public class EvaluationService {
      */
     static class BinarySearch<T extends Comparable<? super T>> {
 
-    private List<T> sortedList;
+        private List<T> sortedList;
 
-    public BinarySearch(List<T> sortedList) {
-        super();
-        this.sortedList = sortedList;
-    }
-
-    public int indexOf(T t) {
-        int first = 0;
-        int last = sortedList.size() - 1;
-        int position = -1;
-        boolean found = false;
-
-        while (!found && first <= last) {
-            int middle = (first + last) / 2;
-
-            if (sortedList.get(middle).equals(t)) {
-                found = true;
-                position = middle;
-            } else if (sortedList.get(middle).compareTo(t) > 0) {
-                last = middle - 1;
-            } else {
-                first = middle + 1;
-            }
+        public BinarySearch(List<T> sortedList) {
+            super();
+            this.sortedList = sortedList;
         }
 
-        return position;
-    }
+        public int indexOf(T t) {
+            int first = 0;
+            int last = sortedList.size() - 1;
+            int position = -1;
+            boolean found = false;
 
-    public List<T> getSortedList() {
-        return sortedList;
-    }
+            while (!found && first <= last) {
+                int middle = (first + last) / 2;
 
-    public void setSortedList(List<T> sortedList) {
-        this.sortedList = sortedList;
-    }
+                if (sortedList.get(middle).equals(t)) {
+                    found = true;
+                    position = middle;
+                } else if (sortedList.get(middle).compareTo(t) > 0) {
+                    last = middle - 1;
+                } else {
+                    first = middle + 1;
+                }
+            }
 
-}
+            return position;
+        }
+
+        public List<T> getSortedList() {
+            return sortedList;
+        }
+
+        public void setSortedList(List<T> sortedList) {
+            this.sortedList = sortedList;
+        }
+
+    }
 
     /**
      * 8. Implement a program that translates from English to Pig Latin.
@@ -332,7 +334,7 @@ public class EvaluationService {
         List<Character> vowelList = Arrays.asList('a', 'e', 'i', 'o', 'u');
         String[] stringArr = string.split(" ");
         String result = "";
-        
+
         for (int i = 0; i < stringArr.length; i++) {
             char c = stringArr[i].charAt(0);
             String firstTwoLetters = stringArr[i].substring(0, 2);
@@ -342,19 +344,19 @@ public class EvaluationService {
             } else if (firstTwoLetters.equals("sh")
                     || firstTwoLetters.equals("qu")
                     || firstTwoLetters.equals("ch")
-                    || firstTwoLetters.equals("th")) { 
-                
-                stringArr[i] = stringArr[i].substring(2, stringArr[i].length()) 
+                    || firstTwoLetters.equals("th")) {
+
+                stringArr[i] = stringArr[i].substring(2, stringArr[i].length())
                         + firstTwoLetters + "ay";
-            } else if (firstThreeLetters.equals("sch")) { 
-                
-                stringArr[i] = stringArr[i].substring(3, stringArr[i].length()) 
+            } else if (firstThreeLetters.equals("sch")) {
+
+                stringArr[i] = stringArr[i].substring(3, stringArr[i].length())
                         + firstThreeLetters + "ay";
             } else {
                 stringArr[i] = stringArr[i].substring(1, stringArr[i].length()) + c + "ay";
             }
         }
-        
+
         for (int i = 0; i < stringArr.length; i++) {
             if (i == 0) {
                 result += stringArr[i];
@@ -362,7 +364,7 @@ public class EvaluationService {
                 result += (" " + stringArr[i]);
             }
         }
-        
+
         return result;
     }
 
@@ -384,12 +386,12 @@ public class EvaluationService {
     public boolean isArmstrongNumber(int input) {
         int sum = 0;
         int originalNum = input;
-        int[] digits = new int[Integer.toString(input).length()]; 
+        int[] digits = new int[Integer.toString(input).length()];
         for (int i = 0; i < digits.length; i++) {
             digits[i] = input % 10;
             input /= 10;
         }
-        
+
         for (int i = 0; i < digits.length; i++) {
             sum += Math.pow(digits[i], digits.length);
         }
@@ -407,8 +409,24 @@ public class EvaluationService {
      * @return
      */
     public List<Long> calculatePrimeFactorsOf(long l) {
-        // TODO Write an implementation for this method declaration
-        return null;
+        List<Long> primeList = new ArrayList<>();
+
+        while (l > 1) {
+            for (long i = 2; i <= l; i++) {
+                if (l % i != 0) {
+                    continue;
+                }
+                for (long j = 2L; j <= i; j++) {
+                    if (i % j == 0) {
+                        primeList.add(j);
+                        l /= j;
+                        break;
+                    }
+                }
+            }
+        }
+        Collections.sort(primeList);
+        return primeList;
     }
 
     /**
@@ -466,9 +484,28 @@ public class EvaluationService {
      * @param i
      * @return
      */
-    public int calculateNthPrime(int i) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+    public int calculateNthPrime(int nth) {
+        if (nth < 1) {
+            throw new IllegalArgumentException();
+        }
+        
+        int nthPrime = 1;
+        int counter = 0;
+        int divisor;
+
+        while (counter < nth) {
+            nthPrime++;
+            for (divisor = 2; divisor < nthPrime; divisor++) {
+                if (nthPrime % divisor == 0) {
+                    break;
+                }
+            }
+            if (divisor == nthPrime) {
+                counter++;
+            }
+        }
+
+        return nthPrime;
     }
 
     /**
@@ -546,8 +583,26 @@ public class EvaluationService {
      * @return
      */
     public boolean isValidIsbn(String string) {
-        // TODO Write an implementation for this method declaration
-        return false;
+        int isnbSum = 0;
+        int count = 10;
+        string = string.replaceAll("-", "");
+        
+        if (!string.matches("[0-9X]{10}$")) {
+            return false;
+        }
+        
+        String[] isbnArr = string.split("");
+        
+        if (isbnArr[isbnArr.length-1].equals("X")) {
+            isbnArr[isbnArr.length-1] = "10";
+        }
+        
+        for (int i = 0; i < isbnArr.length; i++) {
+            isnbSum += ((Integer.parseInt(isbnArr[i]))*count);
+            count--;
+        }
+        
+        return isnbSum % 11 == 0;
     }
 
     /**
@@ -577,7 +632,7 @@ public class EvaluationService {
      * @return
      */
     public Temporal getGigasecondDate(Temporal given) {
-        // TODO Write an implementation for this method declaration
+        
         return null;
     }
 
