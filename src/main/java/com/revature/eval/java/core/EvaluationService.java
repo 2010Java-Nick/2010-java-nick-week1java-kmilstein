@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.function.Predicate;
 
 public class EvaluationService {
 
@@ -224,7 +224,7 @@ public class EvaluationService {
      * @return
      */
     public Map<String, Integer> wordCount(String string) {
-        Map<String, Integer> wordCountMap = new HashMap<String, Integer>();
+        Map<String, Integer> wordCountMap = new HashMap<>();
         String[] stringArr = string.split("[\\s,]+");
 
         for (int i = 0; i < stringArr.length; i++) {
@@ -414,7 +414,7 @@ public class EvaluationService {
      */
     public List<Long> calculatePrimeFactorsOf(long l) {
         List<Long> primeList = new ArrayList<>();
-
+        
         while (l > 1) {
             for (long i = 2; i <= l; i++) {
                 if (l % i != 0) {
@@ -554,7 +554,7 @@ public class EvaluationService {
      *
      */
     static class AtbashCipher {
-
+        
         /**
          * Question 13
          *
@@ -562,8 +562,60 @@ public class EvaluationService {
          * @return
          */
         public static String encode(String string) {
-            // TODO Write an implementation for this method declaration
-            return null;
+            Map<String, String> cipherMap;
+            cipherMap = new HashMap<>();
+            cipherMap.put("A", "Z");
+            cipherMap.put("B", "Y");
+            cipherMap.put("C", "X");
+            cipherMap.put("D", "W");
+            cipherMap.put("E", "V");
+            cipherMap.put("F", "U");
+            cipherMap.put("G", "T");
+            cipherMap.put("H", "S");
+            cipherMap.put("I", "R");
+            cipherMap.put("J", "Q");
+            cipherMap.put("K", "P");
+            cipherMap.put("L", "O");
+            cipherMap.put("M", "N");
+            cipherMap.put("N", "M");
+            cipherMap.put("O", "L");
+            cipherMap.put("P", "K");
+            cipherMap.put("Q", "J");
+            cipherMap.put("R", "I");
+            cipherMap.put("S", "H");
+            cipherMap.put("T", "G");
+            cipherMap.put("U", "F");
+            cipherMap.put("V", "E");
+            cipherMap.put("W", "D");
+            cipherMap.put("X", "C");
+            cipherMap.put("Y", "B");
+            cipherMap.put("Z", "A");
+            
+            string = string.toUpperCase().replace(",", "")
+                    .replace(" ", "")
+                    .replace(".", "");
+            String encodedMessage = "";
+            int count = 0;
+            
+            for (int i = 0; i < string.length(); i++) {
+                String c = Character.toString(string.charAt(i));
+                if (Character.isLetter(string.charAt(i))) {
+                    encodedMessage += cipherMap.get(c);
+                    count++;
+                    if (count == 5) {
+                        encodedMessage += " ";
+                        count = 0;
+                    }
+                } else {
+                    encodedMessage += c;
+                    count++;
+                    if (count == 5) {
+                        encodedMessage += " ";
+                        count = 0;
+                    }
+                }
+            }
+            return encodedMessage.toLowerCase().trim();
         }
 
         /**
@@ -573,8 +625,47 @@ public class EvaluationService {
          * @return
          */
         public static String decode(String string) {
-            // TODO Write an implementation for this method declaration
-            return null;
+            Map<String, String> cipherMap;
+            cipherMap = new HashMap<>();
+            cipherMap.put("z", "a");
+            cipherMap.put("y", "b");
+            cipherMap.put("x", "c");
+            cipherMap.put("w", "d");
+            cipherMap.put("v", "e");
+            cipherMap.put("u", "f");
+            cipherMap.put("t", "g");
+            cipherMap.put("s", "h");
+            cipherMap.put("r", "i");
+            cipherMap.put("q", "j");
+            cipherMap.put("p", "k");
+            cipherMap.put("o", "l");
+            cipherMap.put("n", "m");
+            cipherMap.put("m", "n");
+            cipherMap.put("l", "o");
+            cipherMap.put("k", "p");
+            cipherMap.put("j", "q");
+            cipherMap.put("i", "r");
+            cipherMap.put("h", "s");
+            cipherMap.put("g", "t");
+            cipherMap.put("f", "u");
+            cipherMap.put("e", "v");
+            cipherMap.put("d", "w");
+            cipherMap.put("c", "x");
+            cipherMap.put("b", "y");
+            cipherMap.put("a", "z");
+            
+            String decodedMessage = "";
+            
+            string = string.replace(" ", "");
+            for (int i = 0; i < string.length(); i++) {
+                String c = Character.toString(string.charAt(i));
+                if (Character.isLetter(string.charAt(i))) {
+                    decodedMessage += cipherMap.get(c);
+                } else {
+                    decodedMessage += c;
+                }
+            }
+            return decodedMessage;
         }
     }
 
@@ -738,6 +829,7 @@ public class EvaluationService {
      * @return
      */
     public boolean isLuhnValid(String string) {
+        Predicate p;
         string = string.replaceAll(" ", "");
 
         if (!string.matches("^[0-9]+$")) {
@@ -799,8 +891,27 @@ public class EvaluationService {
      * @return
      */
     public int solveWordProblem(String string) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+        String mathExpression = string.replace("What is ", "")
+                .replace("?", "").replace("plus", "+")
+                .replace("minus", "-").replace("multiplied by", "*")
+                .replace("divided by", "/");
+        String[] temp = mathExpression.split(" ");
+        
+        String operator = temp[1];
+        String firstNum = temp[0];
+        String secondNum = temp[2];
+ 
+        
+        switch (operator) {
+            case "+":
+                return Integer.parseInt(firstNum) + Integer.parseInt(secondNum);
+            case "-":
+                return Integer.parseInt(firstNum) - Integer.parseInt(secondNum);
+            case "/":
+                return Integer.parseInt(firstNum) / Integer.parseInt(secondNum);
+            default:
+                return Integer.parseInt(firstNum) * Integer.parseInt(secondNum);
+        }
     }
 
 }
