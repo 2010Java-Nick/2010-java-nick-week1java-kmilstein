@@ -10,7 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.function.Predicate;
 
 public class EvaluationService {
 
@@ -224,7 +224,7 @@ public class EvaluationService {
      * @return
      */
     public Map<String, Integer> wordCount(String string) {
-        Map<String, Integer> wordCountMap = new HashMap<String, Integer>();
+        Map<String, Integer> wordCountMap = new HashMap<>();
         String[] stringArr = string.split("[\\s,]+");
 
         for (int i = 0; i < stringArr.length; i++) {
@@ -414,7 +414,7 @@ public class EvaluationService {
      */
     public List<Long> calculatePrimeFactorsOf(long l) {
         List<Long> primeList = new ArrayList<>();
-
+        
         while (l > 1) {
             for (long i = 2; i <= l; i++) {
                 if (l % i != 0) {
@@ -738,6 +738,7 @@ public class EvaluationService {
      * @return
      */
     public boolean isLuhnValid(String string) {
+        Predicate p;
         string = string.replaceAll(" ", "");
 
         if (!string.matches("^[0-9]+$")) {
@@ -799,8 +800,27 @@ public class EvaluationService {
      * @return
      */
     public int solveWordProblem(String string) {
-        // TODO Write an implementation for this method declaration
-        return 0;
+        String mathExpression = string.replace("What is ", "")
+                .replace("?", "").replace("plus", "+")
+                .replace("minus", "-").replace("multiplied by", "*")
+                .replace("divided by", "/");
+        String[] temp = mathExpression.split(" ");
+        
+        String operator = temp[1];
+        String firstNum = temp[0];
+        String secondNum = temp[2];
+ 
+        
+        switch (operator) {
+            case "+":
+                return Integer.parseInt(firstNum) + Integer.parseInt(secondNum);
+            case "-":
+                return Integer.parseInt(firstNum) - Integer.parseInt(secondNum);
+            case "/":
+                return Integer.parseInt(firstNum) / Integer.parseInt(secondNum);
+            default:
+                return Integer.parseInt(firstNum) * Integer.parseInt(secondNum);
+        }
     }
 
 }
